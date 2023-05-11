@@ -3,12 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
+    "@chakra-ui/react": "^2.6.1",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "axios": "^1.4.0",
+    "emailjs-com": "^3.2.0",
+    "firebase": "^9.21.0",
+    "focus-visible": "^5.2.0",
+    "framer-motion": "^10.12.9",
+    "js-cookie": "^3.0.5",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
+    "react-jotform-embed": "^1.1.2",
+    "react-query": "^3.39.3",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
+    "react-table": "^7.8.0",
+    "tvm-financejs": "^0.3.0",
+    "url-search-params-polyfill": "^8.1.1",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
@@ -34,5 +54,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sass": "^1.62.1",
+    "tailwindcss": "^3.3.2"
   }
 }

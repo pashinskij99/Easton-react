@@ -1,0 +1,21 @@
+      {coBorrower && (
+        <SimpleGrid columns={2} spacing="4">
+          <Text> Name: </Text>
+          <Text> {coBorrower.name} </Text>
+          <Text> Date of Birth: </Text>
+          <Text> {coBorrower.dob} </Text>
+          <Text> Age: </Text>
+          <Text> {coBorrower.age} </Text>
+          <Text> Social Security Number: </Text>
+          <Text> {coBorrower.ssn} </Text>
+          <Text> Housing: </Text>
+          <Text> {coBorrower.housing.own_rent} </Text>
+          <Text> Rent/Mortgage: </Text>
+          <Text> {coBorrower.housing.rentmtge} </Text>
+          <Text> Income: </Text>
+          <Text> {coBorrower.employment.income} </Text>
+          <Text> Other Income: </Text>
+          <Text> {coBorrower.employment.otherincome} </Text>
+          <Text> Total Income: </Text>
+          <Text> {coBorrower.employment.total_income} </Text>
+        </SimpleGrid>
