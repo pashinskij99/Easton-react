@@ -9,19 +9,24 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import "./style.scss";
 
 const ContentModal = ({ isOpen, handleClose, children }) => {
-  const [htmlFileString, setHtmlFileString] = useState();
+  const [htmlFileString, setHtmlFileString] = useState(null);
 
   async function fetchHtml() {
-    setHtmlFileString(await (await fetch(`htmlContent.html`)).text());
+    const response = await fetch(`htmlContent.html`)
+    const data = await response.text()
+
+    return data
   }
-  useEffect(() => {
-    fetchHtml();
-  }, []);
+  useLayoutEffect(() => {
+    fetchHtml().then((data) => {
+      setHtmlFileString(data)
+    })
+  }, [htmlFileString]);
 
   return (
     <Modal isOpen={isOpen} size={'full'} onClose={handleClose}>
@@ -31,10 +36,7 @@ const ContentModal = ({ isOpen, handleClose, children }) => {
         <ModalCloseButton />
         <ModalBody>
           <Box w="100%" className="modal-content">
-            <div
-              dangerouslySetInnerHTML={{ __html: htmlFileString }}
-              style={{ width: "100%" }}
-            />
+            <div dangerouslySetInnerHTML={{ __html: htmlFileString }}/>
           </Box>
         </ModalBody>
         <ModalFooter>

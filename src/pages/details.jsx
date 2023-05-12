@@ -219,7 +219,7 @@ function Details() {
           bg="purple.50"
           className="w-full md:w-auto min-w-[250px] mr-0 md:mr-4 mb-2"
         >
-          <RateGridCard />
+          <RateGridCard submission_id={application?.submission_id} />
         </Box>
       </Box>
     </Box>
