@@ -28,6 +28,7 @@
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
     "react-table": "^7.8.0",
+    "react-use": "^17.4.0",
     "tvm-financejs": "^0.3.0",
     "url-search-params-polyfill": "^8.1.1",
     "web-vitals": "^2.1.0"
