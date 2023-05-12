@@ -36,6 +36,7 @@ import {
 import { vehicleData } from "../../mock";
 import { debounce } from "lodash";
 import ModalAllRules from "./ModalAllRules";
+import { useForm } from "react-hook-form";
 const Finance = require("tvm-financejs");
 const finance = new Finance();
 
@@ -75,7 +76,7 @@ const percentParse = (val) => {
   return val.replace(/\%/, "");
 };
 
-const RateGridCard = ({submission_id}) => {
+const RateGridCard = ({ submission_id }) => {
   const dispatch = useDispatch();
   const rateGridStore = useSelector((state) => state.rateGrid);
   const incomeStore = useSelector((state) => state.income);
@@ -137,6 +138,8 @@ const RateGridCard = ({submission_id}) => {
     } else if (override === "score") {
       setScoreOverride(newValue);
     }
+
+    // reset();
   };
 
   const [amt] = useState(contractInfo?.amounttofinance || 50000);
@@ -226,6 +229,8 @@ const RateGridCard = ({submission_id}) => {
       dispatch(getRateGridDetails(payload));
       setAdjValues(Array(rateGridStore.rateGrid?.length).fill(0));
     }
+
+    reset()
   }, [ltvOverride, scoreOverride, defaultLtv, defaultscore, amt, dispatch]);
 
   const handleOpen = async () => {
@@ -358,6 +363,14 @@ const RateGridCard = ({submission_id}) => {
   const handleOpenAllRules = () => {
     setOpenAllRulesModal(true);
   };
+
+  const { register, handleSubmit, watch, reset } = useForm({
+    mode: 'onBlur'
+  });
+
+  const onSubmit = (e) => {
+    // console.log({e})
+  }
 
   return (
     <Box minW={{ sm: "100%", md: "470px" }} maxW={{ sm: "100%", md: "470px" }}>
@@ -531,6 +544,8 @@ const RateGridCard = ({submission_id}) => {
           </Box>
         </SimpleGrid>
         <TableContainer border="1px solid gray" p="10px">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          
           <Table variant="simple" size="sm">
             <Thead>
               <Tr>
@@ -565,85 +580,90 @@ const RateGridCard = ({submission_id}) => {
               </Tr>
             </Thead>
             <Tbody>
-              {rateGridStore.rateGrid.map((item, index) => {
-                return (
-                  <Tr
-                    key={index}
-                    style={{
-                      color: hideCheckboxes[index] ? "lightgray" : "black",
-                    }}
-                  >
-                    <Td maxW="10px" whiteSpace="nowrap" textAlign="center">
-                      <input
-                        type="checkbox"
-                        checked={hideCheckboxes[index]}
-                        onChange={(e) =>
-                          handleActiveChange(index, e.target.checked)
-                        }
-                      />
-                    </Td>
-                    <Td maxW="10px" whiteSpace="nowrap">
-                      <Text
-                        fontSize="11px"
-                        fontWeight="bold"
-                        textAlign="center"
-                      >
-                        {item.term}
-                      </Text>
-                    </Td>
-                    <Td maxW="10px" whiteSpace="nowrap">
-                      <Text fontSize="11px" fontWeight="bold">
-                        {percentFormat(
-                          Number(item.rate) * 100 +
-                            Number(adjValues[index] || 0)
-                        )}
-                      </Text>
-                    </Td>
-                    <Td>
-                      <Text
-                        fontSize="11px"
-                        fontWeight="bold"
-                        textAlign="center"
-                      >
-                        {currFormat(pmtValues[index])}
-                      </Text>
-                    </Td>
-                    <Td>
-                      <Text fontSize="11px" fontWeight="bold">
-                        {incomeStore.income[0].comb
-                          ? percentFormat(
-                              Math.round(
-                                (pmtValues[index] /
-                                  parseFloat(
-                                    incomeStore.income[0].comb
-                                      .replace("$", "")
-                                      .replace(",", "")
-                                  )) *
-                                  1000
-                              ) / 10
-                            )
-                          : ""}
-                      </Text>
-                    </Td>
-                    <Td maxW="20px" whiteSpace="nowrap" textAlign="center">
-                      <input
-                        key={index}
-                        type="number"
-                        defaultValue={0}
-                        onChange={(e) => handleAdjChange(index, e.target.value)}
-                        style={{
-                          display: "block",
-                          marginBottom: "10px",
-                          width: "40px",
-                          textAlign: "right",
-                        }}
-                      />
-                    </Td>
-                  </Tr>
-                );
-              })}
+                {rateGridStore.rateGrid.map((item, index) => {
+                  return (
+                    <Tr
+                      key={index}
+                      style={{
+                        color: hideCheckboxes[index] ? "lightgray" : "black",
+                      }}
+                    >
+                      <Td maxW="10px" whiteSpace="nowrap" textAlign="center">
+                        <input
+                          type="checkbox"
+                          checked={hideCheckboxes[index]}
+                          onChange={(e) =>
+                            handleActiveChange(index, e.target.checked)
+                          }
+                        />
+                      </Td>
+                      <Td maxW="10px" whiteSpace="nowrap">
+                        <Text
+                          fontSize="11px"
+                          fontWeight="bold"
+                          textAlign="center"
+                        >
+                          {item.term}
+                        </Text>
+                      </Td>
+                      <Td maxW="10px" whiteSpace="nowrap">
+                        <Text fontSize="11px" fontWeight="bold">
+                          {percentFormat(
+                            Number(item.rate) * 100 +
+                              Number(adjValues[index] || 0)
+                          )}
+                        </Text>
+                      </Td>
+                      <Td>
+                        <Text
+                          fontSize="11px"
+                          fontWeight="bold"
+                          textAlign="center"
+                        >
+                          {currFormat(pmtValues[index])}
+                        </Text>
+                      </Td>
+                      <Td>
+                        <Text fontSize="11px" fontWeight="bold">
+                          {incomeStore.income[0].comb
+                            ? percentFormat(
+                                Math.round(
+                                  (pmtValues[index] /
+                                    parseFloat(
+                                      incomeStore.income[0].comb
+                                        .replace("$", "")
+                                        .replace(",", "")
+                                    )) *
+                                    1000
+                                ) / 10
+                              )
+                            : ""}
+                        </Text>
+                      </Td>
+                      <Td maxW="20px" whiteSpace="nowrap" textAlign="center">
+                        <input
+                          {...register(`field-${index}`)}
+                          key={index}
+                          type="number"
+                          defaultValue={0}
+                          onChange={(e) =>
+                            handleAdjChange(index, e.target.value)
+                          }
+                          style={{
+                            display: "block",
+                            marginBottom: "10px",
+                            width: "40px",
+                            textAlign: "right",
+                          }}
+                        />
+                      </Td>
+                    </Tr>
+                  );
+                })}
             </Tbody>
           </Table>
+          </form>
+
         </TableContainer>
       </Box>
     </Box>
